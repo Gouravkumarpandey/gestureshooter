@@ -136,27 +136,3 @@ CAMERA_INDEX = 0           # Change webcam source
 CONFIDENCE_THRESHOLD = 0.7 # Adjust gesture detection sensitivity
 ```
 
-## 🤝 Contributing
-
-Contributions welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
-
-## 📄 License
-
-This project is licensed under the MIT License - see [LICENSE.md](LICENSE.md)
-
-## 🙏 Acknowledgments
-
-- MediaPipe team for hand tracking
-- Hill Climbing Racing developers
-- OpenCV community
-- Python gaming community
-
-## 📞 Support
-
-- Create an issue for bugs
-- Join our Discord for help
-- Check FAQ in wiki
-- Email: support@example.com
-
----
-Made with ❤️ by [Your Name]
