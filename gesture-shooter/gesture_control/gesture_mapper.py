@@ -1,5 +1,5 @@
 import pyautogui
-from pynput.keyboard import Controller as KeyboardController
+from pynput.keyboard import Controller as KeyboardController, Key
 import time
 
 keyboard = KeyboardController()
@@ -7,30 +7,36 @@ keyboard = KeyboardController()
 class GestureMapper:
     def __init__(self):
         self.last_gesture = None
-        self.cooldown = 0.8  # seconds
+        self.cooldown = 0.3  # Even shorter cooldown for easier control
         self.last_action_time = time.time()
+        self.is_accelerating = False
 
     def map_gesture_to_action(self, gesture):
         now = time.time()
 
         if gesture == self.last_gesture and now - self.last_action_time < self.cooldown:
-            return  # Prevent spamming
+            return
 
         self.last_gesture = gesture
         self.last_action_time = now
 
-        if gesture == "SHOOT":
-            print("[ACTION] Shoot!")
-            pyautogui.click()
-        elif gesture == "POINT":
-            print("[ACTION] Move Forward")
-            keyboard.press('w')
-            time.sleep(0.1)
-            keyboard.release('w')
-        elif gesture == "BACK":
-            print("[ACTION] Move Backward")
-            keyboard.press('s')
-            time.sleep(0.1)
-            keyboard.release('s')
+        # Simple controls: just gas and balance
+        if gesture == "POINT":
+            # Gas (hold right arrow)
+            print("[ACTION] Gas!")
+            keyboard.press(Key.right)
+            self.is_accelerating = True
         elif gesture == "PALM":
-            print("[ACTION] Idle")
+            # Release gas and balance
+            print("[ACTION] Stop & Balance")
+            if self.is_accelerating:
+                keyboard.release(Key.right)
+                self.is_accelerating = False
+            keyboard.press(Key.down)
+            time.sleep(0.1)
+            keyboard.release(Key.down)
+        elif gesture == "NONE":
+            # Stop when no gesture
+            if self.is_accelerating:
+                keyboard.release(Key.right)
+                self.is_accelerating = False
